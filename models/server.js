@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { dbconnection } = require('../database/config');
 
 // Crea en el servidor, que cuando se lance una nueva instancia va a crear la aplicacion de 
 // Espress como una propiedad de la misma clase del servidor 
@@ -9,10 +10,16 @@ class Server {
         this.app = express();
         this.port = process.env.PORT; //Se declara el puerto del archivo .env
         this.usuarioPath = '/api/usuarios'; //Sea visible la ruta de nuestro server.
+        //Conectar a BD
+        this.conectarDB();
         // Midlewares
         this.midlewares();
         //RUTAS DE APLICACION
         this.routes(); //Cuando se llama el constructor llama a las rutas, 
+    }
+    //Se peuden crear varias conexiones
+    async conectarDB() {
+        await dbconnection();
     }
 
     midlewares(){
