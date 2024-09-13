@@ -41,7 +41,8 @@ UsuarioSchema.methods.toJSON = function() {
     //Esto genera la instancia con los valores de nombre, correo, un objeto de JS
     //Saca la version y pasword
     //y lo demas lo llama en un nuevo llamado usuario
-    const {__v, password, ...usuario} = this.toObject();
+    const {__v, password, _id, ...usuario} = this.toObject();
+    usuario.uid = _id; //Se cambia _id se vea como uid
     return usuario
 }
 

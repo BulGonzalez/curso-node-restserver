@@ -113,13 +113,19 @@ const usuariosPatch = (req, res = response) => {
 const usuariosDelete = async (req, res = response) => {
     const {id} = req.params;
 
+    //const uid = req.uid;
     //Borrar fisicamente.
     //const usuario = await Usuario.findByIdAndDelete(id);
-
+    
+    //USUARIO ELIMINADO
     const usuario = await Usuario.findByIdAndUpdate(id, {estado:false});
     
+    //USUARIO AUNTENTICADO
+    const usuarioAutenticado = req.usuario;
+
     res.json({
-        usuario
+        usuario,
+        usuarioAutenticado
     })
 }
 

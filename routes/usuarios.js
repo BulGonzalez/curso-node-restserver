@@ -4,7 +4,13 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
 
-const { validarCampos } = require('../middlewares/validar-campos');
+//No se coloca el /index esta demas 
+//Es propio de JS toma a index como principal
+const {
+    validarCampos,
+    validarJWT,
+    tienerole
+} = require ('../middlewares')
 
 const { usuariosGet, 
         usuariosPut, 
@@ -46,11 +52,13 @@ router.put('/:id', [
 
 router.patch('/', usuariosPatch)
 
-router.delete('/:id',[
+router.delete('/:id',
+    validarJWT,
+    //esAdminrole,
+    tienerole ('ADMIN_ROLE','VENTAS_ROLE'),
     check('id', 'ID no valido').isMongoId(),
     check('id').custom(existeUsuarioporID),
-    validarCampos 
-], 
+    validarCampos, 
 usuariosDelete);
 
 module.exports = router;

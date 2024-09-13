@@ -9,7 +9,18 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT; //Se declara el puerto del archivo .env
-        this.usuarioPath = '/api/usuarios'; //Sea visible la ruta de nuestro server.
+        
+        this.paths = {
+            auth:     '/api/auth',
+            buscar:   '/api/buscar',
+            categorias: '/api/categorias',
+            productos: '/api/productos',
+            usuarios: '/api/usuarios'
+        }
+        
+        // this.usuarioPath = '/api/usuarios'; //Sea visible la ruta de nuestro server.
+        // this.authPath     = '/api/auth';
+        
         //Conectar a BD
         this.conectarDB();
         // Midlewares
@@ -38,7 +49,15 @@ class Server {
         //Se usa un midleware condicional
         // Se crea primero el path
         // Se agrega el require de las rutas
-        this.app.use(this.usuarioPath, require('../routes/usuarios'));
+
+        // this.app.use(this.authPath, require('../routes/auth'));
+        // this.app.use(this.usuarioPath, require('../routes/usuarios'));
+
+        this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.buscar, require('../routes/buscar'));
+        this.app.use(this.paths.categorias, require('../routes/categorias'));
+        this.app.use(this.paths.productos, require('../routes/productos'));
+        this.app.use(this.paths.usuarios, require('../routes/usuarios'));
     }
 
 //Se crea un metodo para que este escuchando 
