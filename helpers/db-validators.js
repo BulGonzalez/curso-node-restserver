@@ -52,11 +52,23 @@ const existeProducto = async( id )=> {
     }
 }
 
+//Valdiar colecciones permitidas
+const coleccionesPermitidas = (coleccion ='', colecciones=[]) => {
+    const incluida = colecciones.includes(coleccion);
+    if(!incluida){
+        throw new Error(`${coleccion} no permitida, Permitidas : ${colecciones}`);
+    }
+
+    //Se usa true porque se esta mandando una funcion, porque se mandan argumentos
+    return true
+}
+
 module.exports = {
     esRoleValido,
     emailExiste,
     existeUsuarioporID,
     existeCategoria,
     categoriaFalse,
-    existeProducto
+    existeProducto,
+    coleccionesPermitidas
 }

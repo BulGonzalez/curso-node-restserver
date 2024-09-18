@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { dbconnection } = require('../database/config');
+const fileUpload = require('express-fileupload');
 
 // Crea en el servidor, que cuando se lance una nueva instancia va a crear la aplicacion de 
 // Espress como una propiedad de la misma clase del servidor 
@@ -15,7 +16,8 @@ class Server {
             buscar:   '/api/buscar',
             categorias: '/api/categorias',
             productos: '/api/productos',
-            usuarios: '/api/usuarios'
+            usuarios: '/api/usuarios',
+            uploads: '/api/uploads'
         }
         
         // this.usuarioPath = '/api/usuarios'; //Sea visible la ruta de nuestro server.
@@ -42,6 +44,13 @@ class Server {
         this.app.use(express.static('public'));
         //lectura y parseo del body
         this.app.use(express.json());
+
+        // fileupload - Carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true
+        }));
     }
 //This.app es lo mismo que app
     routes() {
@@ -58,6 +67,7 @@ class Server {
         this.app.use(this.paths.categorias, require('../routes/categorias'));
         this.app.use(this.paths.productos, require('../routes/productos'));
         this.app.use(this.paths.usuarios, require('../routes/usuarios'));
+        this.app.use(this.paths.uploads, require('../routes/uploads'));
     }
 
 //Se crea un metodo para que este escuchando 

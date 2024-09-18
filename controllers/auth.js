@@ -100,7 +100,7 @@ const googleSingIn = async (req, res=response) => {
     }catch (error) {    
         res.status(400).json({
             ok: false,
-            msg: 'Token no s epudo validar'
+            msg: 'Token no se pudo validar'
         })
     }
 }
